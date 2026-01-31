@@ -9,7 +9,7 @@ function index(req, res) {
   });
 }
 
-function show(req, res) {
+function show(req, res, next) {
   const { id } = req.params;
 
   const movieQuery = `
