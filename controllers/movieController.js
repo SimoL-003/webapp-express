@@ -1,10 +1,11 @@
 import connection from "../database/dbConnection.js";
 
-function index(req, res) {
+function index(req, res, next) {
   const query = "SELECT * FROM movies";
 
   connection.query(query, (err, results) => {
-    if (err) return res.status(500);
+    if (err) return next(err);
+
     res.json(results);
   });
 }
@@ -19,7 +20,7 @@ function show(req, res, next) {
   `;
 
   connection.query(movieQuery, [id], (err, results) => {
-    if (err) return res.status(500);
+    if (err) return next(err);
 
     if (results.length === 0) {
       res.status(404);
