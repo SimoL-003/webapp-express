@@ -12,13 +12,13 @@ function index(req, res) {
 function show(req, res) {
   const { id } = req.params;
 
-  const singleMovie = `
+  const movieQuery = `
     SELECT *
     FROM movies
     WHERE id = ?
   `;
 
-  connection.query(singleMovie, [id], (err, results) => {
+  connection.query(movieQuery, [id], (err, results) => {
     if (err) return res.status(500);
 
     if (results.length === 0) {
@@ -29,7 +29,24 @@ function show(req, res) {
       });
     }
 
-    res.json(results);
+    const movie = results[0];
+
+    const reviewsQuery = `
+      SELECT *
+      FROM reviews
+      WHERE id = ?
+    `;
+
+    connection.query(reviewsQuery, [id], (err, reviewsResults) => {
+      if (err) return res.status(500);
+
+      const movieObj = {
+        ...movie,
+        reviews: reviewsResults,
+      };
+
+      return res.json(movieObj);
+    });
   });
 }
 
