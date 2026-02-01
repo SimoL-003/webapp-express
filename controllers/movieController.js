@@ -53,7 +53,7 @@ function show(req, res, next) {
     const reviewsQuery = `
       SELECT *
       FROM reviews
-      WHERE id = ?
+      WHERE movie_id = ?
     `;
 
     connection.query(reviewsQuery, [id], (err, reviewsResults) => {
