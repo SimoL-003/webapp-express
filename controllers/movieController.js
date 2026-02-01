@@ -2,7 +2,13 @@ import connection from "../database/dbConnection.js";
 import { DateTime } from "luxon";
 
 function index(req, res, next) {
-  const query = "SELECT * FROM movies";
+  const query = `
+    SELECT movies.*, CAST(AVG(reviews.vote) AS DECIMAL(2,1)) AS rating
+    FROM movies
+    LEFT JOIN reviews
+    ON movie_id = movies.id
+    GROUP BY movies.id
+  `;
 
   connection.query(query, (err, results) => {
     if (err) return next(err);
@@ -24,9 +30,11 @@ function show(req, res, next) {
   const { id } = req.params;
 
   const movieQuery = `
-    SELECT *
+    SELECT movies.*, CAST(AVG(reviews.vote) AS DECIMAL(2,1)) AS rating
     FROM movies
-    WHERE id = ?
+    LEFT JOIN reviews
+    ON movie_id = movies.id
+    WHERE movies.id = ?
   `;
 
   connection.query(movieQuery, [id], (err, results) => {
