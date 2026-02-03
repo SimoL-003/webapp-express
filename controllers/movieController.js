@@ -40,6 +40,7 @@ function show(req, res, next) {
     LEFT JOIN reviews
     ON movie_id = movies.id
     WHERE movies.id = ?
+    GROUP BY movies.id
   `;
 
   connection.query(movieQuery, [id], (err, results) => {
@@ -48,10 +49,12 @@ function show(req, res, next) {
     if (results.length === 0) {
       res.status(404);
       return res.json({
-        error: "NOT FOUND",
+        error: "Not Found",
         message: "Movie not found",
       });
     }
+
+    console.log(results);
 
     const movie = results[0];
 
