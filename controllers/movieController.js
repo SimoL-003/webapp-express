@@ -22,7 +22,12 @@ function index(req, res, next) {
       };
     });
 
-    res.json(movies);
+    res.json({
+      data: movies,
+      meta: {
+        totalItems: movies.length,
+      },
+    });
   });
 }
 
