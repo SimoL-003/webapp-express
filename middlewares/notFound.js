@@ -1,8 +1,10 @@
 function notFound(req, res, next) {
   res.status(404);
-  res.json({
-    error: "Not Found",
-    message: "Page not found",
+  return res.json({
+    error: {
+      code: "Not Found",
+      message: "Page not found",
+    },
   });
 }
 

@@ -38,7 +38,7 @@ function show(req, res, next) {
     SELECT movies.*, CAST(AVG(reviews.vote) AS DECIMAL(2,1)) AS rating
     FROM movies
     LEFT JOIN reviews
-    ON movie_id = movies.id
+    ON reviews.movie_id = movies.id
     WHERE movies.id = ?
     GROUP BY movies.id
   `;
@@ -49,8 +49,10 @@ function show(req, res, next) {
     if (results.length === 0) {
       res.status(404);
       return res.json({
-        error: "Not Found",
-        message: "Movie not found",
+        error: {
+          code: "Not Found",
+          message: "Movie not found",
+        },
       });
     }
 
@@ -65,7 +67,7 @@ function show(req, res, next) {
     `;
 
     connection.query(reviewsQuery, [id], (err, reviewsResults) => {
-      if (err) return res.status(500);
+      if (err) return next(err);
 
       const reviews = reviewsResults.map((review) => {
         return {
