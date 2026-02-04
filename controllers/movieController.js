@@ -17,6 +17,7 @@ function index(req, res, next) {
       return {
         ...movie,
         image: `${process.env.SERVER_URL}/images/${movie.image}`,
+        /* FIXME controllare data (usare fromJSDate ??) */
         created_at: DateTime.fromObject(movie.created_at).toLocaleString(),
         updated_at: DateTime.fromObject(movie.updated_at).toLocaleString(),
       };
