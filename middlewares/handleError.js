@@ -4,8 +4,8 @@ export default function handleError(err, req, res, next) {
   res.status(500);
   return res.json({
     error: {
-      code: environment === "dev" ? err.toString() : "Internal Server Error",
-      message: "Something went wrong",
+      code: "Internal Server Error",
+      message: environment === "dev" ? err.toString() : "Something went wrong",
     },
   });
 }
