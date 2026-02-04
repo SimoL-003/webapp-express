@@ -16,8 +16,6 @@ function index(req, res, next) {
 
   query += "GROUP BY movies.id";
 
-  console.log(query);
-
   connection.query(query, (err, results) => {
     if (err) return next(err);
 
@@ -27,9 +25,8 @@ function index(req, res, next) {
         image: movie.image
           ? `${process.env.SERVER_URL}/images/${movie.image}`
           : null,
-        /* FIXME controllare data (usare fromJSDate ??) */
-        created_at: DateTime.fromObject(movie.created_at).toLocaleString(),
-        updated_at: DateTime.fromObject(movie.updated_at).toLocaleString(),
+        created_at: DateTime.fromJSDate(movie.created_at).toLocaleString(),
+        updated_at: DateTime.fromJSDate(movie.updated_at).toLocaleString(),
       };
     });
 
@@ -83,16 +80,16 @@ function show(req, res, next) {
       const reviews = reviewsResults.map((review) => {
         return {
           ...review,
-          created_at: DateTime.fromObject(review.created_at).toLocaleString(),
-          updated_at: DateTime.fromObject(review.updated_at).toLocaleString(),
+          created_at: DateTime.fromJSDate(review.created_at).toLocaleString(),
+          updated_at: DateTime.fromJSDate(review.updated_at).toLocaleString(),
         };
       });
 
       const movieObj = {
         ...movie,
         image: `${process.env.SERVER_URL}/images/${movie.image}`,
-        created_at: DateTime.fromObject(movie.created_at).toLocaleString(),
-        updated_at: DateTime.fromObject(movie.updated_at).toLocaleString(),
+        created_at: DateTime.fromJSDate(movie.created_at).toLocaleString(),
+        updated_at: DateTime.fromJSDate(movie.updated_at).toLocaleString(),
         reviews: reviews,
       };
 
