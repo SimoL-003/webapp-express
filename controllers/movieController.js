@@ -10,13 +10,17 @@ function index(req, res, next) {
   `;
 
   const { search } = req.query;
+  let params = [];
   if (search) {
-    query += `WHERE movies.title LIKE "%${search}%"`;
+    query += `WHERE movies.title LIKE ?`;
+    params.push(`%${search}%`);
   }
 
   query += "GROUP BY movies.id";
 
-  connection.query(query, (err, results) => {
+  console.log(query);
+
+  connection.query(query, params, (err, results) => {
     if (err) return next(err);
 
     const movies = results.map((movie) => {
@@ -63,8 +67,6 @@ function show(req, res, next) {
         },
       });
     }
-
-    console.log(results);
 
     const movie = results[0];
 
