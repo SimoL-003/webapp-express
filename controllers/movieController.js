@@ -1,5 +1,9 @@
 import connection from "../database/dbConnection.js";
-import { DateTime } from "luxon";
+import {
+  createImgPath,
+  formatData,
+  formatHttpRes,
+} from "../functions/helper.js";
 
 function index(req, res, next) {
   let query = `
@@ -24,20 +28,13 @@ function index(req, res, next) {
     const movies = results.map((movie) => {
       return {
         ...movie,
-        image: movie.image
-          ? `${process.env.SERVER_URL}/images/${movie.image}`
-          : null,
-        created_at: DateTime.fromJSDate(movie.created_at).toLocaleString(),
-        updated_at: DateTime.fromJSDate(movie.updated_at).toLocaleString(),
+        image: movie.image ? createImgPath(movie.image) : null,
+        created_at: formatData(movie.created_at),
+        updated_at: formatData(movie.updated_at),
       };
     });
 
-    res.json({
-      data: movies,
-      meta: {
-        totalItems: movies.length,
-      },
-    });
+    res.json(formatHttpRes(movies));
   });
 }
 
@@ -80,20 +77,20 @@ function show(req, res, next) {
       const reviews = reviewsResults.map((review) => {
         return {
           ...review,
-          created_at: DateTime.fromJSDate(review.created_at).toLocaleString(),
-          updated_at: DateTime.fromJSDate(review.updated_at).toLocaleString(),
+          created_at: formatData(review.created_at),
+          updated_at: formatData(review.updated_at),
         };
       });
 
       const movieObj = {
         ...movie,
-        image: `${process.env.SERVER_URL}/images/${movie.image}`,
-        created_at: DateTime.fromJSDate(movie.created_at).toLocaleString(),
-        updated_at: DateTime.fromJSDate(movie.updated_at).toLocaleString(),
+        image: createImgPath(movie.image),
+        created_at: formatData(movie.created_at),
+        updated_at: formatData(movie.updated_at),
         reviews: reviews,
       };
 
-      return res.json(movieObj);
+      return res.json(formatHttpRes(movieObj));
     });
   });
 }
