@@ -95,4 +95,16 @@ function show(req, res, next) {
   });
 }
 
-export default { index, show };
+function storeReview(req, res, next) {
+  const { id } = req.params;
+  const { name, vote, text } = req.body;
+
+  const query = `INSERT INTO movies_db.reviews (movie_id, name, vote, text) VALUES (?, ?, ?, ?)`;
+
+  connection.query(query, [id, name, vote, text], (err, results) => {
+    if (err) return next(err);
+    res.status(201).json({ message: "Review added" });
+  });
+}
+
+export default { index, show, storeReview };

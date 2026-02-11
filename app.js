@@ -15,6 +15,8 @@ app.use(
   }),
 );
 
+app.use(express.json());
+
 app.use("/api/movies", moviesRouter);
 
 app.use(handleError);
