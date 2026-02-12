@@ -85,7 +85,7 @@ function show(req, res, next) {
 
       const movieObj = {
         ...movie,
-        image: createImgPath(movie.image),
+        image: movie.image ? createImgPath(movie.image) : null,
         created_at: formatData(movie.created_at),
         updated_at: formatData(movie.updated_at),
         reviews: reviews,
