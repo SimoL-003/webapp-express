@@ -1,3 +1,4 @@
+import slugify from "slugify";
 import connection from "../database/dbConnection.js";
 import {
   createImgPath,
@@ -95,6 +96,25 @@ function show(req, res, next) {
   });
 }
 
+function review(req, res, next) {
+  const { title, director, genre, release_year, abstract } = req.body;
+  const slug = slugify(title, {
+    lower: true,
+    strict: true,
+  });
+
+  const query = `INSERT INTO movies_db.movies (slug, title, director, genre, release_year, abstract) VALUES (?, ?, ?, ?, ?, ?)`;
+
+  connection.query(
+    query,
+    [slug, title, director, genre, release_year, abstract],
+    (err, results) => {
+      if (err) return next(err);
+      res.status(201).json({ message: "Movie added succesfully" });
+    },
+  );
+}
+
 function storeReview(req, res, next) {
   const { id } = req.params;
   const { name, vote, text } = req.body;
@@ -107,4 +127,4 @@ function storeReview(req, res, next) {
   });
 }
 
-export default { index, show, storeReview };
+export default { index, show, review, storeReview };

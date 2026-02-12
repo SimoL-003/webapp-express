@@ -9,7 +9,10 @@ router.get("/", movieController.index);
 // SHOW
 router.get("/:slug", movieController.show);
 
-// STORE (REVIEW)
+// STORE (movie)
+router.post("/", movieController.review);
+
+// STORE (review)
 router.post("/:id/reviews", movieController.storeReview);
 
 export default router;
