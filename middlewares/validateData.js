@@ -10,7 +10,7 @@ function reviewData(req, res, next) {
     });
   }
 
-  if (!name || !vote) {
+  if (!name || !vote || !text) {
     return res.status(400).json({
       error: {
         code: "Invalid Data",
@@ -27,8 +27,6 @@ function reviewData(req, res, next) {
       },
     });
   }
-
-  console.log("Dati validati");
 
   next();
 }
