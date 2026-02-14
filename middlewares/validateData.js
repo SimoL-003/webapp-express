@@ -19,24 +19,6 @@ function validateData(req, res, next) {
     });
   }
 
-  if (typeof name !== "string" || typeof text !== "string") {
-    return res.status(400).json({
-      error: {
-        code: "Invalid Data",
-        message: "Name and text must be strings",
-      },
-    });
-  }
-
-  if (typeof vote !== "number") {
-    return res.status(400).json({
-      error: {
-        code: "Invalid Data",
-        message: "Vote must be a number",
-      },
-    });
-  }
-
   if (text && text.length > 500) {
     return res.status(400).json({
       error: {
@@ -45,6 +27,8 @@ function validateData(req, res, next) {
       },
     });
   }
+
+  console.log("Dati validati");
 
   next();
 }

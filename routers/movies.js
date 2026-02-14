@@ -1,6 +1,7 @@
 import express from "express";
 import movieController from "../controllers/movieController.js";
 import validateData from "../middlewares/validateData.js";
+import formatData from "../middlewares/formatData.js";
 
 const router = express.Router();
 
@@ -14,6 +15,11 @@ router.get("/:slug", movieController.show);
 router.post("/", movieController.store);
 
 // STORE (review)
-router.post("/:id/reviews", validateData, movieController.storeReview);
+router.post(
+  "/:id/reviews",
+  validateData,
+  formatData,
+  movieController.storeReview,
+);
 
 export default router;

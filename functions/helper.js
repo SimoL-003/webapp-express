@@ -23,4 +23,24 @@ function createImgPath(imgName) {
   return imgPath;
 }
 
-export { formatHttpRes, formatData, createImgPath };
+// Funzione per rendere maiuscole le iniziali di ogni parola
+function capitalizeWords(str) {
+  return str
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+// Funzione per rendere maiuscola solo la prima parola
+function capitalizeFirstWord(str) {
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export {
+  formatHttpRes,
+  formatData,
+  createImgPath,
+  capitalizeWords,
+  capitalizeFirstWord,
+};
