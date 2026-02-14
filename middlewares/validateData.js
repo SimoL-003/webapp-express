@@ -1,4 +1,4 @@
-function validateData(req, res, next) {
+function reviewData(req, res, next) {
   const { name, text, vote } = req.body;
 
   if (vote < 1 || vote > 5) {
@@ -33,4 +33,28 @@ function validateData(req, res, next) {
   next();
 }
 
-export default validateData;
+function movieData(req, res, next) {
+  const { title, director, abstract } = req.body;
+
+  if (!title || !director) {
+    return res.status(400).json({
+      error: {
+        code: "Invalid Data",
+        message: "Title and director are required",
+      },
+    });
+  }
+
+  if (abstract && abstract.length > 500) {
+    return res.status(400).json({
+      error: {
+        code: "Invalid Data",
+        message: "Abstract must be less than 500 characters",
+      },
+    });
+  }
+
+  next();
+}
+
+export default { reviewData, movieData };

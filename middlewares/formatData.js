@@ -1,6 +1,6 @@
 import { capitalizeFirstWord, capitalizeWords } from "../functions/helper.js";
 
-function formatData(req, res, next) {
+function reviewData(req, res, next) {
   let { name, text, vote } = req.body;
 
   name = capitalizeWords(name.trim());
@@ -10,4 +10,15 @@ function formatData(req, res, next) {
   next();
 }
 
-export default formatData;
+function movieData(req, res, next) {
+  let { title, director, abstract } = req.body;
+
+  title = capitalizeWords(title.trim());
+  director = capitalizeWords(director.trim());
+  abstract = capitalizeFirstWord(abstract.trim());
+
+  req.body = { title, director, abstract };
+  next();
+}
+
+export default { reviewData, movieData };

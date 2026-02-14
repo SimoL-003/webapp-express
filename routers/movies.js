@@ -12,13 +12,18 @@ router.get("/", movieController.index);
 router.get("/:slug", movieController.show);
 
 // STORE (movie)
-router.post("/", movieController.store);
+router.post(
+  "/",
+  validateData.movieData,
+  formatData.movieData,
+  movieController.store,
+);
 
 // STORE (review)
 router.post(
   "/:id/reviews",
-  validateData,
-  formatData,
+  validateData.reviewData,
+  formatData.reviewData,
   movieController.storeReview,
 );
 
