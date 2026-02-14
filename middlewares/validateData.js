@@ -34,7 +34,7 @@ function reviewData(req, res, next) {
 }
 
 function movieData(req, res, next) {
-  const { title, director, abstract } = req.body;
+  const { title, director, abstract, release_year } = req.body;
 
   if (!title || !director) {
     return res.status(400).json({
@@ -50,6 +50,15 @@ function movieData(req, res, next) {
       error: {
         code: "Invalid Data",
         message: "Abstract must be less than 500 characters",
+      },
+    });
+  }
+
+  if (release_year && release_year.length !== 4) {
+    return res.status(400).json({
+      error: {
+        code: "Invalid Data",
+        message: "Release year must be 4 characters",
       },
     });
   }
