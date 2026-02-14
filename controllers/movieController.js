@@ -96,7 +96,7 @@ function show(req, res, next) {
   });
 }
 
-function review(req, res, next) {
+function store(req, res, next) {
   const { title, director, genre, release_year, abstract } = req.body;
   const slug = slugify(title, {
     lower: true,
@@ -127,4 +127,4 @@ function storeReview(req, res, next) {
   });
 }
 
-export default { index, show, review, storeReview };
+export default { index, show, store, storeReview };
